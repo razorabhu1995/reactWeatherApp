@@ -28,6 +28,7 @@
 .weather-card-container .weather-card-items {
   min-width: 120px;
   margin: 10px;
+  cursor: pointer;
 }
 
 .chart-container{
