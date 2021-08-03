@@ -36,6 +36,8 @@
 
 .weather-card-container::-webkit-scrollbar {
   width: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .weather-card-container .weather-card-items {
