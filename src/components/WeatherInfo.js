@@ -1,35 +1,15 @@
-import React, {useState} from "react";
-import {Radio, Card, CardContent} from '@material-ui/core';
-import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
+import React, {useState, useRef} from "react";
+import {Radio, Card, CardContent, IconButton} from '@material-ui/core';
 import moment from 'moment';
 import '../style/WeatherInfoStyle.css';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
-
-
-function LeftArrow() {
-  const { isFirstItemVisible, scrollPrev } = React.useContext(VisibilityContext)
-
-  return (
-    <button disabled={isFirstItemVisible} onClick={() => scrollPrev()}>
-      Left
-    </button>
-  );
-}
-
-function RightArrow() {
-  const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext)
-
-  return (
-    <button disabled={isLastItemVisible} onClick={() => scrollNext()}>
-      Right
-    </button>
-  );
-}
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import ArrowRight from '@material-ui/icons/ArrowRight';
+import ArrowLeft from '@material-ui/icons/ArrowLeft';
 
 function WeatherInfo({data , refreshParentFunction, temperatureType}) {
 
   const [chartData, setCharData] = useState(data[0].detail);
+  const ref = useRef(null);
 
   const handleRadioChange = (event) => {
     refreshParentFunction(event.target.value);
@@ -40,8 +20,17 @@ function WeatherInfo({data , refreshParentFunction, temperatureType}) {
     setCharData(chartData.detail);
   }
 
+  const scroll = (direction) => {
+    if (direction === 'left') {
+      ref.current.scrollLeft -= 50;
+    } else {
+      ref.current.scrollLeft += 50;
+    }
+  };
+
   return (
     <div className="main-container">
+      <center><h1>Weather App</h1></center>
       <div className="radio-container">
         <div>
           <Radio
@@ -58,12 +47,16 @@ function WeatherInfo({data , refreshParentFunction, temperatureType}) {
           />Fahrenheit
         </div>
       </div>
-      <div className="weather-card-container">
+      <div className="button-container">
+        <IconButton  variant="outlined" onClick={() => scroll('left')}><ArrowLeft className="button-size"/></IconButton>
+        <IconButton  variant="outlined" onClick={() => scroll('right')}><ArrowRight className="button-size"/></IconButton>
+      </div>
+      <div className="weather-card-container" ref={ref}>
           {data?.map((item, index) => (
             <Card variant="outlined" key={index} className="weather-card-items" onClick={()=>handleChartData(item)}>
               <CardContent>
-                <h1>{Math.floor(item.temp)}{(temperatureType === 'metric')? "°C" : "°F"}</h1> 
-                <p>{moment(item.date * 1000).format("Do MMM, YY")}</p>
+                <h2>{Math.floor(item.temp)}{(temperatureType === 'metric')? "°C" : "°F"}</h2> 
+                <p className="">{moment(item.date * 1000).format("Do MMM, YY")}</p>
               </CardContent>
             </Card>
           ))}
@@ -74,12 +67,6 @@ function WeatherInfo({data , refreshParentFunction, temperatureType}) {
             width={600}
             height={300}
             data={chartData}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
           >
             <XAxis dataKey="date" />
             <YAxis dataKey="temp" />

@@ -1,9 +1,8 @@
 .main-container {
-  padding: 100px;
+  padding: 10px;
 }
 
 .radio-container {
-  text-align: center;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -11,14 +10,28 @@
   align-items: center;
 }
 
-.weather-card-container {
-  /* max-width: 450px; */
-  margin: 0 auto;
-  /* overflow-x: auto; */
+.button-container{
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
+}
+
+.button-size{
+  transform: scale(1.8);
+}
+
+.weather-card-container {
+  max-width: 32%;
+  overflow-x: scroll;
+  display: flex;
+  flex-direction: row;
+  margin-left: 35%;
+}
+
+.card-timestamp{
+  font-size: 14;
+  color: rgb(141, 136, 136)
 }
 
 .weather-card-container::-webkit-scrollbar {
@@ -29,11 +42,15 @@
   min-width: 120px;
   margin: 10px;
   cursor: pointer;
+  overflow: auto;
+  white-space: nowrap;
 }
 
 .chart-container{
-  padding: 100px;
+  padding: 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
+
+
