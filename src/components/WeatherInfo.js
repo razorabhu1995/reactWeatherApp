@@ -8,7 +8,7 @@ import ArrowLeft from '@material-ui/icons/ArrowLeft';
 
 function WeatherInfo({data , refreshParentFunction, temperatureType}) {
 
-  const [chartData, setCharData] = useState(data[0].detail);
+  const [chartData, setCharData] = useState((data)? data[0]?.detail: []);
   const ref = useRef(null);
 
   const handleRadioChange = (event) => {
@@ -33,18 +33,22 @@ function WeatherInfo({data , refreshParentFunction, temperatureType}) {
       <center><h1>Weather App</h1></center>
       <div className="radio-container">
         <div>
-          <Radio
-            checked={temperatureType === 'metric'}
-            onChange={handleRadioChange}
-            value="metric"
-          />Celcius
+          <label>
+            <Radio
+              checked={temperatureType === 'metric'}
+              onChange={handleRadioChange}
+              value="metric"
+            />Celcius
+          </label>
         </div>
         <div>
-          <Radio
-            checked={temperatureType === 'imperial'}
-            onChange={handleRadioChange}
-            value="imperial"
-          />Fahrenheit
+          <label>
+            <Radio
+              checked={temperatureType === 'imperial'}
+              onChange={handleRadioChange}
+              value="imperial"
+            />Fahrenheit
+          </label>
         </div>
       </div>
       <div className="button-container">
@@ -71,7 +75,6 @@ function WeatherInfo({data , refreshParentFunction, temperatureType}) {
             <XAxis dataKey="date" />
             <YAxis dataKey="temp" />
             <Bar dataKey="temp" fill="#8884d8" />
-            <Bar dataKey="uv" fill="#82ca9d" />
           </BarChart>
         </ResponsiveContainer>
       </div>
